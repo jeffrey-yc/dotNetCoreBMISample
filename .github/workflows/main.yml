@@ -6,6 +6,7 @@ on:
    push:
         branch: 
            -main
+           - release/*
    pull-request:
         branch: 
           -main
@@ -19,7 +20,8 @@ job:
     #階層式工作執行, 建議根據需要執行工作做排序
     name: check-out
     uses: actions/checkout@V2
-    -
+   
+   -
     # 保持docker image 與 external github 同步
     name: set up Docker builder
     uses: actions/set-up-buildx-action@v1
