@@ -1,0 +1,47 @@
+# for AZURE pipleline
+name: BMI test, trgger
+
+#啟動的條件
+on:
+   push:
+        branch: 
+           -main
+   pull-request:
+        branch: 
+          -main
+
+#啟動之後需要執行的工作
+job: 
+  buid-and-push:
+    runs-on: Unbutu-latest | Unbutu-'20.2'
+    steps:
+    - 
+    #階層式工作執行, 建議根據需要執行工作做排序
+    name: check-out
+    uses: actions/checkout@V2
+    -
+    # 保持docker image 與 external github 同步
+    name: set up Docker builder
+    uses: actions/set-up-buildx-action@v1
+    - 
+    name: Login to GitHub
+    uses: docker/login-action@v1
+    with:
+      register: ghcr.io
+      username: ${{github.respository_owner}}
+      password: ${{secrets.GHRC_TOKEN}}
+
+    name: Build and Push
+    uses:  docker/build-push-action@v2
+    with: 
+      context:
+      file: ./Dockerfile
+      push: true
+      tags:
+        ghcr.io/jeffrey-yc/dotNetBMI: latest
+
+# Use WebAPPService
+app: user-authentication 
+port: 6000
+version: 2
+      
