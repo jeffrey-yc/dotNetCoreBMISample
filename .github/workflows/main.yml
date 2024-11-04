@@ -12,7 +12,7 @@ on:
 
 #啟動之後需要執行的工作
 job: 
-  buid-and-push:
+  buid:
     runs-on: Unbutu-latest | Unbutu-'20.2'
     steps:
     - 
